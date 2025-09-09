@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://brjvhvxjy4fs5"]
+
+[ext_resource type="Texture2D" uid="uid://bcvqosw0utcjd" path="res://graphics/objects/Billboard.png" id="1_argdu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k3r4n"]
+size = Vector2(1229, 41)
+
+[node name="Billboard" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 11
+
+[node name="Billboard" type="Sprite2D" parent="."]
+position = Vector2(1, 1)
+texture = ExtResource("1_argdu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.5, -14.5)
+shape = SubResource("RectangleShape2D_k3r4n")

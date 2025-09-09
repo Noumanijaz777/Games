@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6u2hw5shwe0j"]
+
+[ext_resource type="Script" uid="uid://4bwh74koa81g" path="res://Scenes/level/level.gd" id="1_2ojl5"]
+[ext_resource type="PackedScene" uid="uid://ce1r2tf8ve5vm" path="res://Scenes/User interface/ui.tscn" id="3_q0jpn"]
+[ext_resource type="PackedScene" uid="uid://p1ed5w7gwg1n" path="res://Scenes/player/player.tscn" id="15_1fd74"]
+
+[node name="level" type="Node2D"]
+script = ExtResource("1_2ojl5")
+
+[node name="Decals" type="Node2D" parent="."]
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="Infestation" type="Node2D" parent="."]
+
+[node name="Items" type="Node2D" parent="."]
+
+[node name="projectiles" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("15_1fd74")]
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(0.6, 0.6)
+position_smoothing_enabled = true
+
+[node name="UI" parent="." instance=ExtResource("3_q0jpn")]
+
+[connection signal="grenade" from="Player" to="." method="_on_player_grenade"]
+[connection signal="laser" from="Player" to="." method="_on_player_laser"]

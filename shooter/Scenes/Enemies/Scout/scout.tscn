@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://byv0jfp0x0u7e"]
+
+[ext_resource type="Script" uid="uid://l7maalg7de6m" path="res://Scenes/Enemies/Scout/scout.gd" id="1_je6oa"]
+[ext_resource type="Texture2D" uid="uid://cgdj16gv2bkjr" path="res://graphics/enemies/scout.png" id="1_mknw0"]
+[ext_resource type="Shader" uid="uid://yfedt3eho4w1" path="res://Scenes/Enemies/Scout/scout.gdshader" id="2_tltfq"]
+[ext_resource type="AudioStream" uid="uid://ck5if077ehyw0" path="res://graphics/audio/solid_impact.ogg" id="4_5sgpx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5sgpx"]
+shader = ExtResource("2_tltfq")
+shader_parameter/color = Color(0.835294, 0.921569, 0.980392, 1)
+shader_parameter/progress = 0.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_je6oa"]
+radius = 48.0937
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tltfq"]
+radius = 626.065
+
+[node name="Scout" type="CharacterBody2D" groups=["Entity", "Scouts"]]
+collision_layer = 2
+collision_mask = 15
+script = ExtResource("1_je6oa")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_5sgpx")
+position = Vector2(33, 23)
+rotation = 1.5708
+texture = ExtResource("1_mknw0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_je6oa")
+
+[node name="AttackArea" type="Area2D" parent="."]
+visible = false
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("CircleShape2D_tltfq")
+
+[node name="LaserSpawnPosition" type="Node2D" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="LaserSpawnPosition"]
+position = Vector2(122, 8)
+
+[node name="Marker2D2" type="Marker2D" parent="LaserSpawnPosition"]
+position = Vector2(111, -31)
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="LaserTimer" type="Timer" parent="Timers"]
+
+[node name="HitTimer" type="Timer" parent="Timers"]
+wait_time = 0.2
+one_shot = true
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_5sgpx")
+
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
+[connection signal="timeout" from="Timers/LaserTimer" to="." method="_on_laser_timer_timeout"]
+[connection signal="timeout" from="Timers/HitTimer" to="." method="_on_hit_timer_timeout"]
